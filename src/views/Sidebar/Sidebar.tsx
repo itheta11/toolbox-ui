@@ -38,10 +38,10 @@ const Sidebar: React.FC<Props> = (props) => {
             <NavMainItems to="/" title=".NET tools">
               <SiDotnet className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
-            <NavMainItems to="/articles" title="Articles">
+            <NavMainItems to="/" title="Articles">
               <MdArticle className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
-            <NavMainItems to="/cheatsheets" title="Cheatsheets">
+            <NavMainItems to="/" title="Cheatsheets">
               <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
             <NavMainItems to="/" title="Miscellaneous">
