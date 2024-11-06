@@ -29,7 +29,7 @@ const Sidebar: React.FC<Props> = (props) => {
         </div>
         <div>
           <ul>
-            <NavMainItems to="/js-tools" title="JSON tools">
+            <NavMainItems to="/json-tools" title="JSON tools">
               <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
             <NavMainItems to="/" title="JSON tools">
