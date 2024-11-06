@@ -7,6 +7,7 @@ import { Route, Routes, HashRouter as Router } from "react-router-dom";
 import Home from "./views/Home/Home";
 import JsonTools from "./views/JsonTools/JsonTools";
 import JsonBox from "./views/JsonTools/JsonBox/JsonBox";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,6 +28,17 @@ function App() {
             </Routes>
           </div>
         </section>
+        <ToastContainer
+        position="top-right"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
       </main>
     </Router>
   );
