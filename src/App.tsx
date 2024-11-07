@@ -15,11 +15,11 @@ function App() {
   return (
     <Router>
       <main
-        className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:slate-900 w-screen h-screen
+        className="antialiased bg-slate-900 text-white w-screen h-screen
   dark [--scroll-mt:9.875rem] js-focus-visible text-md flex gap-1"
       >
-        <Sidebar className="flex-none" />
-        <section className="app-section flex-1 flex">
+        <Sidebar className="flex-none p-2" />
+        <section className="app-section flex-1 flex p-2">
           <div className="w-full flex flex-col">
             <Routes>
               <Route path="/" element={<Home />} />

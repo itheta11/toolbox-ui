@@ -11,7 +11,7 @@ const JsonTools = () => {
   return (
     <div className="h-full">
       <h2 className="text-3xl font-extrabold tracking-tight">JSON tools</h2>
-      <div className="tools-container w-full flex justify-center items-center">
+      <div className="h-[calc(100vh-100px)] bg-red w-full flex justify-center items-center">
         <div className="grid grid-cols-4 gap-2">
           <ToolTile title="JSON box" link="json-box" />
           <ToolTile title="Mock json" link="/" />

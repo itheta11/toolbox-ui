@@ -18,7 +18,7 @@ interface MainItemProps extends Props {
 
 const Sidebar: React.FC<Props> = (props) => {
   return (
-    <aside className={props.className + "w-40 border-r sticky top-0"}>
+    <aside className={props.className + " w-40 border-r sticky top-0"}>
       <nav>
         <div className="flex gap-2">
           <span className="text-blue-400 text-2xl font-bold">
@@ -27,12 +27,12 @@ const Sidebar: React.FC<Props> = (props) => {
 
           <span className="font-bold text-white">TOOLBOX</span>
         </div>
-        <div>
+        <div className="">
           <ul>
             <NavMainItems to="/json-tools" title="JSON tools">
               <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
-            <NavMainItems to="/" title="JSON tools">
+            <NavMainItems to="/" title="Js tools">
               <RiJavascriptFill className="group-hover:shadow-slate-200 dark:group-hover:bg-black" />
             </NavMainItems>
             <NavMainItems to="/" title=".NET tools">
@@ -59,8 +59,7 @@ const NavMainItems: React.FC<MainItemProps> = (props) => {
     <li>
       <Link to={props.to}>
         <div
-          className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700
-        hover:text-slate-900 datk:text-slate-400 dark:hover:text-slate-300"
+          className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium"
         >
           <NavItemIcon>{props.children}</NavItemIcon>
           <div>{props.title}</div>
@@ -72,7 +71,7 @@ const NavMainItems: React.FC<MainItemProps> = (props) => {
 
 const NavItemIcon: React.FC<Props> = (props) => {
   return (
-    <div className="p-2 mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:ring-slate-900/10 dark:ring-0 dark:shadow-none darl:group-hover:shadow-none dark:group-hpver:highlight-white/10 dark:bg:slate-800 dark:highlighr-white/5">
+    <div className="p-2 rounded-md">
       {props.children}
     </div>
   );
