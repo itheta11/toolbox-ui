@@ -6,6 +6,8 @@ import JsDocGenerator from "../../../helpers/json/generators/json-jsdoc";
 import { GiBinoculars, GiLadder, GiRopeCoil } from "react-icons/gi";
 import { FaJsSquare } from "react-icons/fa";
 import { PiFileCSharpBold } from "react-icons/pi";
+import CsharpClassGenerator from "../../../helpers/json/generators/json-csharp";
+import CsvGenerator from "../../../helpers/json/generators/json-csv";
 interface Props extends React.HTMLProps<HTMLElement> {
   className: string;
   getEditorCode: () => string;
@@ -38,6 +40,19 @@ const JsonConverter = (props: Props) => {
           const jsDocGen = new JsDocGenerator();
           jsDocGen.create(getObj, "root");
           previewCode = jsDocGen.toString();
+        }
+
+        if (generatorType === Generators.CSHARP) {
+          const getObj = JSON.parse(editorCode);
+          const jsDocGen = new CsharpClassGenerator();
+          jsDocGen.create(getObj, "root");
+          previewCode = jsDocGen.toString();
+        }
+
+        if (generatorType === Generators.CSV) {
+          console.log("fsfs")
+          const csv = CsvGenerator.generate(editorCode)
+          previewCode = csv.toString();
         }
       } catch (er) {
         previewCode = er.message;
