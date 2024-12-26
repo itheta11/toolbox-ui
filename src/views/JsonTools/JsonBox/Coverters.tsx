@@ -8,6 +8,7 @@ import { FaJsSquare } from "react-icons/fa";
 import { PiFileCSharpBold } from "react-icons/pi";
 import { AiFillEye, AiFillCheckCircle } from "react-icons/ai";
 import { FaFileCsv } from "react-icons/fa";
+import { TbFileTypeXml } from "react-icons/tb";
 import CsharpClassGenerator from "../../../helpers/json/generators/json-csharp";
 import CsvGenerator from "../../../helpers/json/generators/json-csv";
 import XmlGenerator from "../../../helpers/json/generators/json-xml";
@@ -176,7 +177,7 @@ const JsonConverter = (props: Props) => {
               title={Generators.XML}
               onClick={() => generatorHandler(Generators.XML)}
             >
-              <FaFileCsv />
+              <TbFileTypeXml />
             </button>
           </div>
         </div>
