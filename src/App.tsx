@@ -8,6 +8,7 @@ import Home from "./views/Home/Home";
 import JsonTools from "./views/JsonTools/JsonTools";
 import JsonBox from "./views/JsonTools/JsonBox/JsonBox";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,15 +30,15 @@ function App() {
           </div>
         </section>
         <ToastContainer
-        position="top-right"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+          position="top-right"
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
         />
       </main>
     </Router>

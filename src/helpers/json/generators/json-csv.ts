@@ -1,13 +1,27 @@
 export default class CsvGenerator {
-    static generate(jsonData) {
-        if (Array.isArray(jsonData)) {
-            const headers = Object.keys(jsonData[0]);
-            const rows = jsonData.map(obj => {
-                headers.map(header => JSON.stringify(obj[header], null, 2)).join(",");
+  static generate(jsonData) {
+    debugger;
+    if (Array.isArray(jsonData)) {
+      const headers = Object.keys(jsonData[0]);
+      let csvrows = "";
+      jsonData.forEach((row, rowIndex) => {
+        let csvrow = "";
+        headers.forEach((header, headerItemIndex) => {
+          if (headerItemIndex !== headers.length - 1) {
+            csvrow += row[header] + ",";
+          } else {
+            csvrow += row[header];
+          }
+        });
 
-            })
-            console.log([headers.join(","), ...rows].join("\n"))
-            return [headers.join(","), ...rows].join("\n");
+        if (rowIndex !== jsonData.length - 1) {
+          csvrows += csvrow;
+        } else {
+          csvrows += csvrow + "\n";
         }
+      });
+
+      return headers.join(",") + "\n" + csvrows;
     }
+  }
 }

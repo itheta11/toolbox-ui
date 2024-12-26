@@ -6,8 +6,12 @@ import JsDocGenerator from "../../../helpers/json/generators/json-jsdoc";
 import { GiBinoculars, GiLadder, GiRopeCoil } from "react-icons/gi";
 import { FaJsSquare } from "react-icons/fa";
 import { PiFileCSharpBold } from "react-icons/pi";
+import { AiFillEye, AiFillCheckCircle } from "react-icons/ai";
+import { FaFileCsv } from "react-icons/fa";
 import CsharpClassGenerator from "../../../helpers/json/generators/json-csharp";
 import CsvGenerator from "../../../helpers/json/generators/json-csv";
+import XmlGenerator from "../../../helpers/json/generators/json-xml";
+
 interface Props extends React.HTMLProps<HTMLElement> {
   className: string;
   getEditorCode: () => string;
@@ -30,32 +34,51 @@ const JsonConverter = (props: Props) => {
     props.setPreviewCodeFromEditor(previewCode);
   };
 
+  /**
+   *
+   * convert - yaml, sql
+   *
+   *
+   *
+   * @param {Generators} generatorType
+   */
   const generatorHandler = (generatorType: Generators) => {
     const editorCode = props.getEditorCode();
     let previewCode = "";
     if (editorCode) {
       try {
+        const getObj = JSON.parse(editorCode);
         if (generatorType === Generators.JSDOC) {
-          const getObj = JSON.parse(editorCode);
+          debugger;
           const jsDocGen = new JsDocGenerator();
-          jsDocGen.create(getObj, "root");
+          jsDocGen.createRoot(getObj, "root");
           previewCode = jsDocGen.toString();
         }
 
         if (generatorType === Generators.CSHARP) {
-          const getObj = JSON.parse(editorCode);
           const jsDocGen = new CsharpClassGenerator();
-          jsDocGen.create(getObj, "root");
+          jsDocGen.createRoot(getObj, "Root");
           previewCode = jsDocGen.toString();
         }
 
         if (generatorType === Generators.CSV) {
-          console.log("fsfs")
-          const csv = CsvGenerator.generate(editorCode)
+          if (!Array.isArray(getObj)) {
+            throw Error("Json is not an array");
+          }
+          const csv = CsvGenerator.generate(getObj);
           previewCode = csv.toString();
+        }
+
+        if (generatorType === Generators.XML) {
+          const xmlGen = new XmlGenerator();
+          previewCode = xmlGen.create(getObj);
         }
       } catch (er) {
         previewCode = er.message;
+        toast.error(er.message, {
+          autoClose: 1000,
+          theme: "colored",
+        });
       }
     }
 
@@ -88,27 +111,27 @@ const JsonConverter = (props: Props) => {
       <div className="flex-1 border-r-1 border-r-slate-400">
         <h3 className="text-slate-200 text-sm"> Essentials </h3>
         <div className="grid grid-cols-3">
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
+              className="p-1 bg-slate-300 rounded-sm"
               title={Essentials.VALIDATOR}
               onClick={() => essentialHandler(Essentials.VALIDATOR)}
             >
-              <GiLadder />
+              <AiFillCheckCircle />
             </button>
           </div>
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
-              title={Essentials.VALIDATOR}
+              className="p-1 bg-slate-300 rounded-sm"
+              title={Essentials.VIEWER}
               onClick={() => essentialHandler(Essentials.VIEWER)}
             >
-              <GiBinoculars />
+              <AiFillEye />
             </button>
           </div>
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
+              className="p-1 bg-slate-300 rounded-sm"
               title={Essentials.VALIDATOR}
             >
               <GiRopeCoil />
@@ -120,31 +143,40 @@ const JsonConverter = (props: Props) => {
       <div className="flex-[2] border-r-1 border-r-slate-400">
         <h3 className="text-slate-200 text-sm"> Generators </h3>
         <div className="grid grid-cols-5">
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
+              className="p-1 bg-slate-300 rounded-sm"
               title={Generators.JSDOC}
               onClick={() => generatorHandler(Generators.JSDOC)}
             >
               <FaJsSquare />
             </button>
           </div>
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
+              className="p-1 bg-slate-300 rounded-sm"
               title={Generators.CSHARP}
               onClick={() => generatorHandler(Generators.CSHARP)}
             >
               <PiFileCSharpBold />
             </button>
           </div>
-          <div className="text-blue-400 text-xl">
+          <div className="text-blue-800 text-xl">
             <button
-              className="p-1 bg-slate-400 rounded-sm"
+              className="p-1 bg-slate-300 rounded-sm"
               title={Generators.CSV}
               onClick={() => generatorHandler(Generators.CSV)}
             >
-              <FaJsSquare />
+              <FaFileCsv />
+            </button>
+          </div>
+          <div className="text-blue-800 text-xl">
+            <button
+              className="p-1 bg-slate-300 rounded-sm"
+              title={Generators.XML}
+              onClick={() => generatorHandler(Generators.XML)}
+            >
+              <FaFileCsv />
             </button>
           </div>
         </div>
