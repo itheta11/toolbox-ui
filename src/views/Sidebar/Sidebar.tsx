@@ -5,6 +5,7 @@ import { VscJson } from "react-icons/vsc";
 import { RiJavascriptFill } from "react-icons/ri";
 import { SiDotnet } from "react-icons/si";
 import { MdArticle } from "react-icons/md";
+import { IoLogoCss3 } from "react-icons/io";
 
 interface Props extends React.HTMLProps<HTMLElement> {
   className?: string;
@@ -20,7 +21,7 @@ const Sidebar: React.FC<Props> = (props) => {
   return (
     <aside className={props.className + " w-40 border-r sticky top-0"}>
       <nav>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2">
           <span className="text-blue-400 text-2xl font-bold">
             <AiOutlineCodeSandbox />
           </span>
@@ -31,6 +32,9 @@ const Sidebar: React.FC<Props> = (props) => {
           <ul>
             <NavMainItems to="json-tools" title="JSON tools">
               <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+            </NavMainItems>
+            <NavMainItems to="css-tools" title="CSS tools">
+              <IoLogoCss3 className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
             <NavMainItems to="/" title="Js tools">
               <RiJavascriptFill className="group-hover:shadow-slate-200 dark:group-hover:bg-black" />

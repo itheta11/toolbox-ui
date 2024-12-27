@@ -1,11 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-interface Props extends React.HTMLProps<HTMLElement> {
-  className: string;
-  getEditorCode: () => string;
-  setPreviewCodeFromEditor: (preview: string) => void;
-}
+import ToolTile from "../../components/shared/ToolTile";
 
 const JsonTools = () => {
   return (
@@ -17,14 +12,6 @@ const JsonTools = () => {
           <ToolTile title="Mock json" link="mock-json" />
         </div>
       </div>
-    </div>
-  );
-};
-
-const ToolTile = ({ title, link }: { title: string; link: string }) => {
-  return (
-    <div className="flex justify-center item-center w-[150px] h-[150px] p-4 rounded-lg bg-gray-500 text-white tooltile">
-      <Link to={link}> {title}</Link>
     </div>
   );
 };

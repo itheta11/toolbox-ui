@@ -7,7 +7,7 @@ export const jsonValidator = (value: string) => {
 
 export const getFakerValue = (value: ALL_TYPES) => {
   if (value === "number") {
-    return faker.number.int();
+    return faker.number.int({ min: 10, max: 1000 });
   }
 
   if (value === "string") {

@@ -874,6 +874,10 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-auto {
+  margin-left: auto;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -1027,6 +1031,10 @@ video {
 
 .h-\[2px\] {
   height: 2px;
+}
+
+.h-\[50px\] {
+  height: 50px;
 }
 
 .h-\[calc\(100dvh_-_var\(--navbar-height\)\)\] {
@@ -1204,6 +1212,10 @@ video {
 
 .w-\[150px\] {
   width: 150px;
+}
+
+.w-\[50px\] {
+  width: 50px;
 }
 
 .w-\[80\%\] {
@@ -1409,14 +1421,6 @@ video {
 
 .flex-none {
   flex: none;
-}
-
-.flex-\[0\.25\] {
-  flex: 0.25;
-}
-
-.flex-\[0\.75\] {
-  flex: 0.75;
 }
 
 .flex-shrink-0 {
@@ -2387,6 +2391,11 @@ video {
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
+
 .bg-slate-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(15 23 42 / var(--tw-bg-opacity));
@@ -2733,6 +2742,11 @@ video {
   line-height: 1.75rem;
 }
 
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -2991,6 +3005,11 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-slate-400 {
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -7697,6 +7716,20 @@ body {
   color: hsl(var(--nextui-warning) / var(--nextui-warning-opacity, var(--tw-text-opacity)));
 }
 
+.dark\:ring-1:is(.dark *) {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.dark\:ring-inset:is(.dark *) {
+  --tw-ring-inset: inset;
+}
+
+.dark\:ring-white\/10:is(.dark *) {
+  --tw-ring-color: rgb(255 255 255 / 0.1);
+}
+
 .dark\:placeholder\:text-danger-500:is(.dark *)::-moz-placeholder {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-danger-500) / var(--nextui-danger-500-opacity, var(--tw-text-opacity)));
@@ -7891,6 +7924,10 @@ body {
   .sm\:my-16 {
     margin-top: 4rem;
     margin-bottom: 4rem;
+  }
+
+  .sm\:w-full {
+    width: 100%;
   }
 
   .sm\:items-start {

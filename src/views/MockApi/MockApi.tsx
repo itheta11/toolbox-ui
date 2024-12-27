@@ -21,6 +21,7 @@ const getNewMockField = (): MockField =>
   );
 export default function MockApi() {
   const [fields, setFields] = useState<MockField[]>([getNewMockField()]);
+  const [outputJson, setOutputJson] = useState(null);
   const [submitted, setSubmitted] = useState(null);
 
   const handleFieldNameChange = (id: string, name: string) => {
@@ -79,8 +80,12 @@ export default function MockApi() {
         });
         return resultJson;
       };
-      const mockData = faker.helpers.multiple(createMockObj, { count: 50 });
-      console.log("final result", mockData);
+      ///const mockData = faker.helpers.multiple(createMockObj, { count: 50 });
+
+      const newMockObj = createMockObj();
+      const parsedObj = JSON.stringify(newMockObj, null, 2);
+      setOutputJson(parsedObj);
+      console.log("faker", faker);
     } catch (er) {
       console.error(er);
       toast.error(er.message, {
@@ -124,7 +129,10 @@ export default function MockApi() {
             Add
           </Button>
         </div>
-        <div className="flex-1 bg-slate-500"></div>
+        <div className="bg-slate-500 flex-1 flex flex-col p-2">
+          <h3>Output</h3>
+          <pre className="whitespace-pre-wrap overflow-auto">{outputJson}</pre>
+        </div>
       </div>
     </div>
   );

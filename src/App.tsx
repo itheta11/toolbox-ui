@@ -10,6 +10,8 @@ import JsonBox from "./views/JsonTools/JsonBox/JsonBox";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MockApi from "./views/MockApi/MockApi";
+import CssTools from "./views/CssTools/CssTools";
+import ColorTools from "./views/CssTools/ColorTools/ColorTools";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +20,7 @@ function App() {
     <Router>
       <main
         className="antialiased bg-slate-900 text-white w-screen h-screen
-  dark [--scroll-mt:9.875rem] js-focus-visible text-md flex gap-1"
+  dark [--scroll-mt:9.875rem] js-focus-visible text-md flex gap-1 overflow-auto"
       >
         <Sidebar className="flex-none p-2" />
         <section className="app-section flex-1 flex p-2">
@@ -28,6 +30,9 @@ function App() {
               <Route path="/json-tools" element={<JsonTools />} />
               <Route path="/json-tools/json-box" element={<JsonBox />} />
               <Route path="/json-tools/mock-json" element={<MockApi />} />
+
+              <Route path="css-tools" element={<CssTools />} />
+              <Route path="css-tools/colors" element={<ColorTools />} />
             </Routes>
           </div>
         </section>
