@@ -9,6 +9,7 @@ import JsonTools from "./views/JsonTools/JsonTools";
 import JsonBox from "./views/JsonTools/JsonBox/JsonBox";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MockApi from "./views/MockApi/MockApi";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -26,6 +27,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/json-tools" element={<JsonTools />} />
               <Route path="/json-tools/json-box" element={<JsonBox />} />
+              <Route path="/json-tools/mock-json" element={<MockApi />} />
             </Routes>
           </div>
         </section>

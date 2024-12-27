@@ -29,7 +29,7 @@ const Sidebar: React.FC<Props> = (props) => {
         </div>
         <div className="">
           <ul>
-            <NavMainItems to="/json-tools" title="JSON tools">
+            <NavMainItems to="json-tools" title="JSON tools">
               <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
             </NavMainItems>
             <NavMainItems to="/" title="Js tools">
@@ -58,9 +58,7 @@ const NavMainItems: React.FC<MainItemProps> = (props) => {
   return (
     <li>
       <Link to={props.to}>
-        <div
-          className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium"
-        >
+        <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium">
           <NavItemIcon>{props.children}</NavItemIcon>
           <div>{props.title}</div>
         </div>
@@ -70,10 +68,6 @@ const NavMainItems: React.FC<MainItemProps> = (props) => {
 };
 
 const NavItemIcon: React.FC<Props> = (props) => {
-  return (
-    <div className="p-2 rounded-md">
-      {props.children}
-    </div>
-  );
+  return <div className="p-2 rounded-md">{props.children}</div>;
 };
 export default Sidebar;
