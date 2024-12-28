@@ -7,6 +7,9 @@ import { SiDotnet } from "react-icons/si";
 import { MdArticle } from "react-icons/md";
 import { IoLogoCss3 } from "react-icons/io";
 
+import { useDispatch, useSelector } from "react-redux";
+import { expandPanel, collapsePanel } from "../../store/sidePanelSlice";
+
 interface Props extends React.HTMLProps<HTMLElement> {
   className?: string;
 }
@@ -18,20 +21,41 @@ interface MainItemProps extends Props {
 }
 
 const Sidebar: React.FC<Props> = (props) => {
+  const dispatch = useDispatch();
+  const isExpanded = useSelector((state: any) => state.sidePanel.isExpanded);
+
+  const handleMouseEnter = () => {
+    dispatch(expandPanel());
+  };
+
+  const handleMouseLeave = () => {
+    dispatch(collapsePanel());
+  };
+
   return (
-    <aside className={props.className + " w-40 border-r sticky top-0"}>
-      <nav>
-        <div className="flex gap-2 mb-2">
-          <span className="text-blue-400 text-2xl font-bold">
+    <aside
+      className={
+        props.className +
+        ` w-14 border-r-1 border-slate-600 sticky top-0 overflow-hidden transition-width ease-in-out duration-300 ${isExpanded ? "w-40" : ""}`
+      }
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <nav className="px-2 mt-2">
+        <div className="flex gap-2 mb-6">
+          <div
+            className="w-[40px] h-[40px] bg-blue-900 px-2 text-white text-4xl font-bold flex justify-center 
+          item-center rounded-md"
+          >
             <AiOutlineCodeSandbox />
-          </span>
+          </div>
 
           <span className="font-bold text-white">TOOLBOX</span>
         </div>
         <div className="">
-          <ul>
+          <ul className="flex flex-col gap-2">
             <NavMainItems to="json-tools" title="JSON tools">
-              <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+              <VscJson className="" />
             </NavMainItems>
             <NavMainItems to="css-tools" title="CSS tools">
               <IoLogoCss3 className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
@@ -60,11 +84,15 @@ const Sidebar: React.FC<Props> = (props) => {
 
 const NavMainItems: React.FC<MainItemProps> = (props) => {
   return (
-    <li>
+    <li className="  ">
       <Link to={props.to}>
-        <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium">
-          <NavItemIcon>{props.children}</NavItemIcon>
-          <div>{props.title}</div>
+        <div className="flex gap-2 hover:bg-slate-700 rounded-md">
+          <div className="w-[40px] h-[40px] bg-slate-800 text-2xl font-bold flex rounded-md">
+            <NavItemIcon>{props.children}</NavItemIcon>
+          </div>
+          <div className="text-sm flex justify-center items-center">
+            {props.title}
+          </div>
         </div>
       </Link>
     </li>
