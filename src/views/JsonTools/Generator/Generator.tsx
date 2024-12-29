@@ -17,10 +17,10 @@ import { addItem, updateItem, deleteItem } from "../../../store/jsonItems";
 import { JsonItem } from "../../../store/localstorage";
 import { v4 } from "uuid";
 import SavedItems from "./SavedItems";
+import MonacoEditor from "./MonacoEditor";
 
 const Generator = () => {
   const [loading, setLoading] = useState(false);
-  const [editorCode, setEditorCode] = useState("");
   const [previewCode, setPreviewCode] = useState("");
   const converter = useRef(null);
   const editorRef = useRef(null);
@@ -30,14 +30,6 @@ const Generator = () => {
     value: "",
   });
   const [isJsonItemPanelShow, setIsJsonItemPanelShow] = useState(true);
-
-  const handleEditorDidMount = (editor: any) => {
-    editorRef.current = editor;
-  };
-
-  const handleEditorChange = (value: string | undefined) => {
-    setEditorCode(value ?? "");
-  };
 
   const copyToClipboard = async () => {
     try {
@@ -102,8 +94,6 @@ const Generator = () => {
     converter.current = converterType;
   };
 
-  const debounce_handleEditorChange = debounce(handleEditorChange, 1000);
-
   const handleDelete = () => {
     if (jsonItem.id) {
       dispatch(deleteItem(jsonItem.id));
@@ -113,14 +103,14 @@ const Generator = () => {
   const saveJsonItem = () => {
     debugger;
     if (!jsonItem.id) {
-      const newJsonItem = { id: v4(), value: editorCode };
+      const newJsonItem = { id: v4(), value: editorRef.current };
       setJsonItem(newJsonItem);
       dispatch(addItem(newJsonItem));
     } else {
       setJsonItem((prevItem) => {
-        return { ...prevItem, value: editorCode };
+        return { ...prevItem, value: editorRef.current };
       });
-      dispatch(updateItem({ id: jsonItem.id, value: editorCode }));
+      dispatch(updateItem({ id: jsonItem.id, value: editorRef.current }));
     }
   };
   return (
@@ -143,18 +133,16 @@ const Generator = () => {
           <TypeConverters
             className="flex-auto p-2 flex gap-2"
             getConverterType={getConverterType}
-            getEditorCode={() => editorCode}
+            getEditorCode={() => editorRef.current}
             setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
             saveJsonItem={saveJsonItem}
           />
           <div className="flex-auto p-1 bg-slate-800 rounded-lg flex flex-wrap">
             <div className="flex-1">
-              <Editor
-                theme="vs-dark"
-                defaultLanguage="json"
-                value={editorCode}
-                onMount={handleEditorDidMount}
-                onChange={(e) => debounce_handleEditorChange(e)}
+              <MonacoEditor
+                getEditorValue={(val) => {
+                  editorRef.current = val;
+                }}
               />
             </div>
             <div className="bg-neutral-800 flex-1 flex flex-col">
