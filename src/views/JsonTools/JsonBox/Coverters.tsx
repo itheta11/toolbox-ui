@@ -9,9 +9,15 @@ import { PiFileCSharpBold } from "react-icons/pi";
 import { AiFillEye, AiFillCheckCircle } from "react-icons/ai";
 import { FaFileCsv } from "react-icons/fa";
 import { TbFileTypeXml } from "react-icons/tb";
+import { TbShieldCheckFilled } from "react-icons/tb";
+import { PiTreeViewFill } from "react-icons/pi";
+import { SiPrettier } from "react-icons/si";
+import { MdOutlineCompress } from "react-icons/md";
+
 import CsharpClassGenerator from "../../../helpers/json/generators/json-csharp";
 import CsvGenerator from "../../../helpers/json/generators/json-csv";
 import XmlGenerator from "../../../helpers/json/generators/json-xml";
+import { Button } from "@nextui-org/react";
 
 interface Props extends React.HTMLProps<HTMLElement> {
   className: string;
@@ -28,8 +34,20 @@ const JsonConverter = (props: Props) => {
         if (esssentailsType === Essentials.VALIDATOR) {
           previewCode = validateJson(editorCode);
         }
+
+        if (esssentailsType === Essentials.BEAUTIFY) {
+          previewCode = beautifyJson(editorCode, 4);
+        }
+
+        if (esssentailsType === Essentials.MINIFY) {
+          previewCode = minifyJson(editorCode);
+        }
       } catch (er: any) {
         previewCode = er.messagge;
+        toast.error(er.messagge, {
+          autoClose: 1000,
+          theme: "colored",
+        });
       }
     }
     props.setPreviewCodeFromEditor(previewCode);
@@ -96,95 +114,106 @@ const JsonConverter = (props: Props) => {
       return JSON.stringify(JSON.parse(val));
     } catch (er) {
       console.error(er);
-      toast.error(er.messagge, {
+    }
+  };
+
+  /**
+   * Beautifies a JSON string with specified indentation.
+   * @param {string} jsonString - The JSON string to beautify.
+   * @param {number} [spaces=2] - Number of spaces for indentation (default is 2).
+   * @returns {string} - The beautified JSON string.
+   * @throws {Error} - If the input is not a valid JSON string.
+   */
+  function beautifyJson(jsonString, spaces = 2) {
+    try {
+      const jsonObject = JSON.parse(jsonString);
+      toast.success("Prettified json", {
         autoClose: 1000,
         theme: "colored",
       });
+      return JSON.stringify(jsonObject, null, spaces);
+    } catch (error) {
+      throw new Error("Invalid JSON string: " + error.message);
     }
-  };
+  }
+
+  /**
+   * Minifies a JSON string by removing unnecessary spaces and line breaks.
+   * @param {string} jsonString - The JSON string to minify.
+   * @returns {string} - The minified JSON string.
+   * @throws {Error} - If the input is not a valid JSON string.
+   */
+  function minifyJson(jsonString) {
+    try {
+      const jsonObject = JSON.parse(jsonString);
+      toast.success("Minified json", {
+        autoClose: 1000,
+        theme: "colored",
+      });
+      return JSON.stringify(jsonObject);
+    } catch (error) {
+      throw new Error("Invalid JSON string: " + error.message);
+    }
+  }
   return (
     <div
       className={
         props.className +
-        " my-2 p-1 bg-slate-700 rounded-sm flex justify-content"
+        " my-2 p-1 bg-slate-900 rounded-sm flex justify-content"
       }
     >
-      <div className="flex-1 border-r-1 border-r-slate-400">
-        <h3 className="text-slate-200 text-sm"> Essentials </h3>
-        <div className="grid grid-cols-3">
+      <div className="flex-1">
+        <div className="flex gap-1">
           <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
+            <Button
+              className=""
+              size="sm"
+              color="primary"
               title={Essentials.VALIDATOR}
               onClick={() => essentialHandler(Essentials.VALIDATOR)}
             >
-              <AiFillCheckCircle />
-            </button>
+              <TbShieldCheckFilled className="text-2xl" />
+              <span className=" lowercase">{Essentials.VALIDATOR}</span>
+            </Button>
           </div>
           <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Essentials.VIEWER}
+            <Button
+              className=""
+              size="sm"
+              variant="ghost"
+              title={Essentials.VALIDATOR}
               onClick={() => essentialHandler(Essentials.VIEWER)}
             >
-              <AiFillEye />
-            </button>
+              <PiTreeViewFill className="text-2xl" />
+              <span className=" lowercase">{Essentials.VIEWER}</span>
+            </Button>
           </div>
           <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Essentials.VALIDATOR}
+            <Button
+              className=""
+              size="sm"
+              variant="ghost"
+              title={Essentials.BEAUTIFY}
+              onClick={() => essentialHandler(Essentials.BEAUTIFY)}
             >
-              <GiRopeCoil />
-            </button>
+              <SiPrettier className="text-2xl" />
+              <span className=" lowercase">{Essentials.BEAUTIFY}</span>
+            </Button>
+          </div>
+
+          <div className="text-blue-800 text-xl">
+            <Button
+              className=""
+              size="sm"
+              variant="ghost"
+              title={Essentials.MINIFY}
+              onClick={() => essentialHandler(Essentials.MINIFY)}
+            >
+              <MdOutlineCompress className="text-2xl" />
+              <span className=" lowercase">{Essentials.MINIFY}</span>
+            </Button>
           </div>
         </div>
-      </div>
-
-      <div className="flex-[2] border-r-1 border-r-slate-400">
-        <h3 className="text-slate-200 text-sm"> Generators </h3>
-        <div className="grid grid-cols-5">
-          <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Generators.JSDOC}
-              onClick={() => generatorHandler(Generators.JSDOC)}
-            >
-              <FaJsSquare />
-            </button>
-          </div>
-          <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Generators.CSHARP}
-              onClick={() => generatorHandler(Generators.CSHARP)}
-            >
-              <PiFileCSharpBold />
-            </button>
-          </div>
-          <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Generators.CSV}
-              onClick={() => generatorHandler(Generators.CSV)}
-            >
-              <FaFileCsv />
-            </button>
-          </div>
-          <div className="text-blue-800 text-xl">
-            <button
-              className="p-1 bg-slate-300 rounded-sm"
-              title={Generators.XML}
-              onClick={() => generatorHandler(Generators.XML)}
-            >
-              <TbFileTypeXml />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1">
-        <h3 className="text-slate-200">Others</h3>
       </div>
     </div>
   );

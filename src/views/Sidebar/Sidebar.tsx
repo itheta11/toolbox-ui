@@ -44,7 +44,7 @@ const Sidebar: React.FC<Props> = (props) => {
       <nav className="px-2 mt-2">
         <div className="flex gap-2 mb-6">
           <div
-            className="w-[40px] h-[40px] bg-blue-900 px-2 text-white text-4xl font-bold flex justify-center 
+            className="w-[40px] h-[40px] bg-blue-500 px-2 text-white text-4xl font-bold flex justify-center 
           item-center rounded-md"
           >
             <AiOutlineCodeSandbox />

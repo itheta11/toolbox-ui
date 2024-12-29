@@ -1,7 +1,8 @@
 export enum Essentials {
   VIEWER = "VIEWER",
   VALIDATOR = "VALIDATOR",
-  PRETTIER = "PRETTIER",
+  BEAUTIFY = "BEAUTIFY",
+  MINIFY = "MINIFY",
 }
 
 export enum Generators {
