@@ -39,7 +39,7 @@ const ColorPallets = () => {
         <h3 className="text-xl font-bold">Unit</h3>
         <Dropdown>
           <DropdownTrigger>
-            <Button className="capitalize" variant="bordered">
+            <Button className="capitalize" variant="bordered" color="primary">
               {selectedColorUnit}
             </Button>
           </DropdownTrigger>

@@ -720,6 +720,14 @@ video {
   top: var(--navbar-height);
 }
 
+.top-3 {
+  top: 0.75rem;
+}
+
+.right-2 {
+  right: 0.5rem;
+}
+
 .-z-30 {
   z-index: -30;
 }
@@ -1046,6 +1054,10 @@ video {
   height: 2px;
 }
 
+.h-\[350px\] {
+  height: 350px;
+}
+
 .h-\[40px\] {
   height: 40px;
 }
@@ -1097,6 +1109,14 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[100px\] {
+  height: 100px;
+}
+
+.h-\[50px\] {
+  height: 50px;
 }
 
 .max-h-64 {
@@ -1231,12 +1251,24 @@ video {
   width: 2.25rem;
 }
 
+.w-\[100px\] {
+  width: 100px;
+}
+
 .w-\[200px\] {
   width: 200px;
 }
 
 .w-\[40px\] {
   width: 40px;
+}
+
+.w-\[50px\] {
+  width: 50px;
+}
+
+.w-\[600px\] {
+  width: 600px;
 }
 
 .w-\[80\%\] {
@@ -1283,6 +1315,18 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[640px\] {
+  width: 640px;
+}
+
+.w-\[150px\] {
+  width: 150px;
+}
+
+.w-\[70px\] {
+  width: 70px;
 }
 
 .min-w-10 {
@@ -1438,6 +1482,10 @@ video {
 
 .flex-none {
   flex: none;
+}
+
+.flex-\[2\] {
+  flex: 2;
 }
 
 .flex-shrink-0 {
@@ -2059,6 +2107,10 @@ video {
   border-right-width: 1px;
 }
 
+.border-r-2 {
+  border-right-width: 2px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -2153,6 +2205,11 @@ video {
 .border-warning {
   --tw-border-opacity: 1;
   border-color: hsl(var(--nextui-warning) / var(--nextui-warning-opacity, var(--tw-border-opacity)));
+}
+
+.border-slate-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(100 116 139 / var(--tw-border-opacity));
 }
 
 .border-x-transparent {
@@ -2251,8 +2308,36 @@ video {
   border-top-color: transparent;
 }
 
+.border-r-slate-300 {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(203 213 225 / var(--tw-border-opacity));
+}
+
+.border-r-slate-100 {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(241 245 249 / var(--tw-border-opacity));
+}
+
+.border-r-slate-600 {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(71 85 105 / var(--tw-border-opacity));
+}
+
+.border-r-slate-500 {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(100 116 139 / var(--tw-border-opacity));
+}
+
 .border-opacity-25 {
   --tw-border-opacity: 0.25;
+}
+
+.border-opacity-50 {
+  --tw-border-opacity: 0.5;
+}
+
+.border-opacity-80 {
+  --tw-border-opacity: 0.8;
 }
 
 .\!bg-danger-50 {
@@ -2492,6 +2577,15 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-slate-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
+
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 
 .bg-stripe-gradient {

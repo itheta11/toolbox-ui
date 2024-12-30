@@ -84,7 +84,7 @@ export default function colorConversion(
   return value;
 }
 
-function getRgbComponents(rgbString) {
+export function getRgbComponents(rgbString) {
   // Match the RGB format and extract the components
   const match = rgbString.match(/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/);
 
@@ -101,7 +101,7 @@ function getRgbComponents(rgbString) {
   };
 }
 
-function getRgbaComponents(rgbaString) {
+export function getRgbaComponents(rgbaString) {
   // Match the RGBA format and extract the components
   const match = rgbaString.match(
     /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(0|1|0?\.\d+)\)$/
@@ -123,7 +123,7 @@ function getRgbaComponents(rgbaString) {
   };
 }
 
-function getHslComponents(hslString) {
+export function getHslComponents(hslString) {
   // Match the HSL format and extract the components
   const match = hslString.match(
     /^hsl\((\d{1,3}),\s*(\d{1,3}%)\s*,\s*(\d{1,3}%)\)$/
@@ -142,7 +142,7 @@ function getHslComponents(hslString) {
   };
 }
 
-function getHslaComponents(hslaString) {
+export function getHslaComponents(hslaString) {
   // Match the HSLA format and extract the components
   const match = hslaString.match(
     /^hsla\((\d{1,3}),\s*(\d{1,3}%)\s*,\s*(\d{1,3}%)\s*,\s*(0|1|0?\.\d+)\)$/
