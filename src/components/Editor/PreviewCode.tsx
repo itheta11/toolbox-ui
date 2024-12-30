@@ -40,7 +40,7 @@ const PreviewCode: React.FC<{ previewCode: string; converterType: string }> = ({
       </div>
       <pre className="whitespace-pre-wrap overflow-auto text-sm">
         {converterType === Essentials.VIEWER ? (
-          <JsonViewer data={previewCode} />
+          <JsonViewer data={JSON.parse(previewCode)} />
         ) : (
           previewCode
         )}

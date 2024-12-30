@@ -42,7 +42,7 @@ const JsonConverter = (props: Props) => {
         }
 
         if (esssentailsType === Essentials.VIEWER) {
-          previewCode = JSON.parse(beautifyJson(editorCode));
+          previewCode = beautifyJson(editorCode);
         }
 
         if (esssentailsType === Essentials.BEAUTIFY) {
