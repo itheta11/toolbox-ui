@@ -3,7 +3,7 @@ import { debounce, delay } from "lodash";
 import { useState, useRef } from "react";
 
 import TypeConverters from "./TypeConverters";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { Button, ButtonGroup } from "@nextui-org/react";
 import { FaCopy } from "react-icons/fa";
@@ -16,10 +16,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem, updateItem, deleteItem } from "../../../store/jsonItems";
 import { JsonItem } from "../../../store/localstorage";
 import { v4 } from "uuid";
-import SavedItems from "./SavedItems";
-import MonacoEditor from "./MonacoEditor";
+import SavedItems from "../../../components/shared/SavedItems";
+import MonacoEditor from "../../../components/Editor/MonacoEditor";
+import PreviewCode from "../../../components/Editor/PreviewCode";
 
 const Generator = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [previewCode, setPreviewCode] = useState("");
   const converter = useRef(null);
@@ -58,7 +60,6 @@ const Generator = () => {
       // await writeable.close();
 
       setLoading(true);
-      debugger;
       let fileType = "txt";
       if (converter.current === Generators.JSDOC) {
         fileType = "js";
@@ -113,6 +114,11 @@ const Generator = () => {
       dispatch(updateItem({ id: jsonItem.id, value: editorRef.current }));
     }
   };
+
+  const selectNewItem = () => {
+    navigate(0);
+    setLoading(true);
+  };
   return (
     <div className="json-box">
       <Spinner isShow={loading} />
@@ -126,9 +132,10 @@ const Generator = () => {
       </div>
 
       <div className="h-[calc(100vh-50px)] flex items-center">
-        <div className="w-[200px] h-full">
-          <SavedItems isShow={true} />
-        </div>
+        <SavedItems
+          isShow={isJsonItemPanelShow}
+          selectNewItem={selectNewItem}
+        />
         <div className="h-full flex-1 flex flex-col">
           <TypeConverters
             className="flex-auto p-2 flex gap-2"
@@ -136,6 +143,9 @@ const Generator = () => {
             getEditorCode={() => editorRef.current}
             setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
             saveJsonItem={saveJsonItem}
+            jsonPanelCloseHandler={() => {
+              setIsJsonItemPanelShow((prevState) => !prevState);
+            }}
           />
           <div className="flex-auto p-1 bg-slate-800 rounded-lg flex flex-wrap">
             <div className="flex-1">
@@ -145,28 +155,10 @@ const Generator = () => {
                 }}
               />
             </div>
-            <div className="bg-neutral-800 flex-1 flex flex-col">
-              <div className=" p-2 bg-slate-700 rounded-t-md text-slate-100 flex">
-                <span>Output</span>
-                <div className="ml-auto flex gap-2">
-                  <button
-                    className=" flex items-center py-1 px-2 "
-                    onClick={copyToClipboard}
-                  >
-                    <FaCopy className="text-lg" />
-                  </button>
-                  <button
-                    className=" flex items-center py-1 px-2"
-                    onClick={handleFileSave}
-                  >
-                    <IoMdDownload className="text-lg" />
-                  </button>
-                </div>
-              </div>
-              <pre className="whitespace-pre-wrap overflow-auto text-sm">
-                {previewCode}
-              </pre>
-            </div>
+            <PreviewCode
+              previewCode={previewCode}
+              converterType={converter.current}
+            />
           </div>
         </div>
       </div>

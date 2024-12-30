@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Essentials, Generators } from "../../../constants/json-tools";
 import { jsonValidator } from "../../../helpers/json/json-helpers";
 import { toast } from "react-toastify";
@@ -23,16 +23,26 @@ interface Props extends React.HTMLProps<HTMLElement> {
   className: string;
   getEditorCode: () => string;
   setPreviewCodeFromEditor: (preview: string) => void;
+  getConverterType: (type: string) => void;
 }
 
 const JsonConverter = (props: Props) => {
+  const [currConverter, setCurrConverter] = useState(null);
+
   const essentialHandler = (esssentailsType: Essentials) => {
     const editorCode = props.getEditorCode();
+    props.getConverterType(esssentailsType);
+    setCurrConverter(esssentailsType);
+
     let previewCode = "";
     if (editorCode) {
       try {
         if (esssentailsType === Essentials.VALIDATOR) {
           previewCode = validateJson(editorCode);
+        }
+
+        if (esssentailsType === Essentials.VIEWER) {
+          previewCode = JSON.parse(beautifyJson(editorCode));
         }
 
         if (esssentailsType === Essentials.BEAUTIFY) {
@@ -50,57 +60,6 @@ const JsonConverter = (props: Props) => {
         });
       }
     }
-    props.setPreviewCodeFromEditor(previewCode);
-  };
-
-  /**
-   *
-   * convert - yaml, sql
-   *
-   *
-   *
-   * @param {Generators} generatorType
-   */
-  const generatorHandler = (generatorType: Generators) => {
-    const editorCode = props.getEditorCode();
-    let previewCode = "";
-    if (editorCode) {
-      try {
-        const getObj = JSON.parse(editorCode);
-        if (generatorType === Generators.JSDOC) {
-          debugger;
-          const jsDocGen = new JsDocGenerator();
-          jsDocGen.createRoot(getObj, "root");
-          previewCode = jsDocGen.toString();
-        }
-
-        if (generatorType === Generators.CSHARP) {
-          const jsDocGen = new CsharpClassGenerator();
-          jsDocGen.createRoot(getObj, "Root");
-          previewCode = jsDocGen.toString();
-        }
-
-        if (generatorType === Generators.CSV) {
-          if (!Array.isArray(getObj)) {
-            throw Error("Json is not an array");
-          }
-          const csv = CsvGenerator.generate(getObj);
-          previewCode = csv.toString();
-        }
-
-        if (generatorType === Generators.XML) {
-          const xmlGen = new XmlGenerator();
-          previewCode = xmlGen.create(getObj);
-        }
-      } catch (er) {
-        previewCode = er.message;
-        toast.error(er.message, {
-          autoClose: 1000,
-          theme: "colored",
-        });
-      }
-    }
-
     props.setPreviewCodeFromEditor(previewCode);
   };
 

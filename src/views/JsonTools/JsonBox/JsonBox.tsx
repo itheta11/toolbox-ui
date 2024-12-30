@@ -5,22 +5,18 @@ import { useState, useRef } from "react";
 import JsonConverter from "./Coverters";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import SavedItems from "../../../components/shared/SavedItems";
+import MonacoEditor from "../../../components/Editor/MonacoEditor";
+import PreviewCode from "../../../components/Editor/PreviewCode";
 
 const JsonBox = () => {
-  const [editorCode, setEditorCode] = useState("");
   const editorRef = useRef(null);
+  const converter = useRef(null);
+  const getConverterType = (converterType: string) => {
+    converter.current = converterType;
+  };
 
   const [previewCode, setPreviewCode] = useState("");
-  const previewCodeRef = useRef(null);
-
-  const handleEditorDidMount = (editor: any) => {
-    editorRef.current = editor;
-  };
-
-  const handleEditorChange = (value: string | undefined) => {
-    setEditorCode(value ?? "");
-  };
-  const debounce_handleEditorChange = debounce(handleEditorChange, 1000);
   return (
     <div className="json-box">
       <div className="flex items-center">
@@ -32,27 +28,27 @@ const JsonBox = () => {
         </h2>
       </div>
 
-      <div className="h-[calc(100vh-50px)] flex flex-col">
-        <JsonConverter
-          className="flex-auto p-2 flex gap-2"
-          getEditorCode={() => editorCode}
-          setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
-        />
-        <div className="flex-auto p-1 bg-slate-900 rounded-lg flex flex-wrap">
-          <div className="flex-1">
-            <Editor
-              theme="vs-dark"
-              defaultLanguage="json"
-              value={editorCode}
-              onMount={handleEditorDidMount}
-              onChange={(e) => debounce_handleEditorChange(e)}
+      <div className="h-[calc(100vh-50px)] flex items-center">
+        <SavedItems isShow={false} selectNewItem={() => {}} />
+        <div className="h-full flex-1 flex flex-col">
+          <JsonConverter
+            className="flex-auto p-2 flex gap-2"
+            getConverterType={getConverterType}
+            getEditorCode={() => editorRef.current}
+            setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
+          />
+          <div className="flex-auto p-1 bg-slate-900 rounded-lg flex flex-wrap">
+            <div className="flex-1">
+              <MonacoEditor
+                getEditorValue={(val) => {
+                  editorRef.current = val;
+                }}
+              />
+            </div>
+            <PreviewCode
+              previewCode={previewCode}
+              converterType={converter.current}
             />
-          </div>
-          <div className="flex-1 flex flex-col p-2">
-            <h3>Output</h3>
-            <pre className="whitespace-pre-wrap overflow-auto">
-              {previewCode}
-            </pre>
           </div>
         </div>
       </div>

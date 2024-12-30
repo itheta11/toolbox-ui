@@ -6,6 +6,8 @@ import JsDocGenerator from "../../../helpers/json/generators/json-jsdoc";
 import { GiBinoculars, GiLadder, GiRopeCoil } from "react-icons/gi";
 import { FaJsSquare } from "react-icons/fa";
 import { PiFileCSharpBold } from "react-icons/pi";
+import { FaRectangleList } from "react-icons/fa6";
+
 import { AiFillEye, AiFillCheckCircle } from "react-icons/ai";
 import { FaFileCsv } from "react-icons/fa";
 import { TbFileTypeXml } from "react-icons/tb";
@@ -20,6 +22,7 @@ interface Props extends React.HTMLProps<HTMLElement> {
   setPreviewCodeFromEditor: (preview: string) => void;
   getConverterType: (type: string) => void;
   saveJsonItem: () => void;
+  jsonPanelCloseHandler: () => void;
 }
 
 const TypeConverters = (props: Props) => {
@@ -87,7 +90,15 @@ const TypeConverters = (props: Props) => {
     >
       <div className="flex-1">
         <div className="flex gap-1">
-          <div className="text-blue-800 text-xl">
+          <div className="text-blue-800 text-xl flex gap-2">
+            <Button
+              size="sm"
+              variant="solid"
+              color="secondary"
+              onClick={props.jsonPanelCloseHandler}
+            >
+              <FaRectangleList className="text-xl" />
+            </Button>
             <Button
               className=""
               size="sm"
