@@ -5,6 +5,10 @@ import { lazy, Suspense, useState } from "react";
 import Accessibility from "./Accessibility.tsx";
 import Converter from "./Converter.tsx";
 import Gradient from "./Gradient.tsx";
+import { IoColorPalette, IoWarning } from "react-icons/io5";
+import { SiConvertio } from "react-icons/si";
+import { MdGradient } from "react-icons/md";
+import { FaPalette } from "react-icons/fa";
 
 interface TabItem {
   id: string;
@@ -76,6 +80,7 @@ const ColorTools = () => {
       <div className="flex-auto h-[calc(100vh-80px)] p-2 flex w-full flex-col">
         <Tabs
           aria-label="Dynamic tabs"
+          color="primary"
           variant="bordered"
           items={tabs}
           selectedKey={selected}
@@ -85,7 +90,10 @@ const ColorTools = () => {
           }}
         >
           {(item) => (
-            <Tab key={item.id} title={item.lable}>
+            <Tab
+              key={item.id}
+              title={<Tabtitle id={item.id} lable={item.lable} />}
+            >
               <Suspense fallback={<SuspenseSpinner />}>
                 <GetTabItemContent id={item.id} />
               </Suspense>
@@ -93,6 +101,18 @@ const ColorTools = () => {
           )}
         </Tabs>
       </div>
+    </div>
+  );
+};
+
+const Tabtitle = ({ id, lable }) => {
+  return (
+    <div className="flex justify-center items-center gap-1 space-x-2">
+      {id === "pallete" ? <FaPalette className="text-xl" /> : null}
+      {id === "converter" ? <SiConvertio className="text-xl" /> : null}
+      {id === "gradient" ? <MdGradient className="text-xl" /> : null}
+      {id === "accessibility" ? <IoWarning className="text-xl" /> : null}
+      {lable}
     </div>
   );
 };
