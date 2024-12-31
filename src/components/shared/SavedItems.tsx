@@ -5,6 +5,9 @@ import { Button } from "@nextui-org/react";
 import moment from "moment";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
+import { useEffect, useState } from "react";
+import httpRequest from "../../services/http-request";
+import { JsonItemApi, Jsonschemas } from "../../constants/api-endpoints";
 
 interface SavedItemsProps {
   isShow: boolean;
@@ -17,6 +20,20 @@ const SavedItems: React.FC<SavedItemsProps> = ({
   selectItem,
 }) => {
   const items = useSelector((state: any): JsonItem[] => state.jsonItems.items);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // // useEffect(() => {
+  // //   setIsLoading(true);
+  // //   httpRequest
+  // //     .fetch(JsonItemApi.GET_ALL)
+  // //     .then((response) => {
+  // //       console.log("response", response);
+  // //     })
+  // //     .finally(() => {
+  // //       setIsLoading(false);
+  // //     });
+  // // }, []);
+
   return (
     <AnimatePresence initial={false}>
       {isShow ? (
@@ -74,3 +91,6 @@ const JsonPanelItem: React.FC<{
   );
 };
 export default SavedItems;
+function useSate(arg0: boolean): [any, any] {
+  throw new Error("Function not implemented.");
+}

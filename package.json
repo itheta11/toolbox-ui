@@ -16,6 +16,7 @@
     "@nextui-org/form": "^2.1.7",
     "@nextui-org/react": "^2.4.8",
     "@reduxjs/toolkit": "^2.5.0",
+    "axios": "^1.7.9",
     "github-markdown-css": "^5.7.0",
     "jsonlint": "^1.6.3",
     "lodash": "^4.17.21",
