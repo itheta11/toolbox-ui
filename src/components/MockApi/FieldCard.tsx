@@ -8,7 +8,7 @@ import {
   DropdownTrigger,
   Input,
 } from "@nextui-org/react";
-import { MockField } from "../../types/mcok-api";
+import { MockField } from "../../types/mock-api";
 import { useMemo } from "react";
 
 const fieldTypeDropdown = [

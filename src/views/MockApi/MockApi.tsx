@@ -3,7 +3,7 @@ import { Form } from "@nextui-org/form";
 import { useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import FieldCard from "../../components/MockApi/FieldCard";
-import { MockField } from "../../types/mcok-api";
+import { MockField } from "../../types/mock-api";
 import { ALL_TYPES } from "../../types";
 import { toast } from "react-toastify";
 import { getFakerValue } from "../../helpers/json/json-helpers";

@@ -15,21 +15,19 @@ const itemsSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      debugger;
       state.items.push(action.payload);
       saveJsonItemsToLocalStorage(state.items); // Save to localStorage
     },
     updateItem: (state, action) => {
-      debugger;
-      const { id, value } = action.payload;
+      const { id, title, value } = action.payload;
       const existingItem = state.items.find((item) => item.id === id);
       if (existingItem) {
         existingItem.value = value;
+        existingItem.title = title;
         saveJsonItemsToLocalStorage(state.items); // Save to localStorage
       }
     },
     deleteItem: (state, action) => {
-      debugger;
       const id = action.payload;
       state.items = state.items.filter((item) => item.id !== id);
       saveJsonItemsToLocalStorage(state.items); // Save to localStorage

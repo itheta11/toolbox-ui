@@ -20,6 +20,8 @@
     "jsonlint": "^1.6.3",
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",
+    "moment": "^2.30.1",
+    "motion": "^11.15.0",
     "next-themes": "^0.4.3",
     "prettier": "^3.3.3",
     "react": "^18.3.1",

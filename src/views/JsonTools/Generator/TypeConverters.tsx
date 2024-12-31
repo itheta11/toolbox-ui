@@ -14,26 +14,34 @@ import { TbFileTypeXml } from "react-icons/tb";
 import CsharpClassGenerator from "../../../helpers/json/generators/json-csharp";
 import CsvGenerator from "../../../helpers/json/generators/json-csv";
 import XmlGenerator from "../../../helpers/json/generators/json-xml";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 
 interface Props extends React.HTMLProps<HTMLElement> {
   className: string;
+  jsonItemId: string;
   getEditorCode: () => string;
   setPreviewCodeFromEditor: (preview: string) => void;
   getConverterType: (type: string) => void;
-  saveJsonItem: () => void;
+  saveJsonItem: (title: string) => void;
   jsonPanelCloseHandler: () => void;
 }
 
 const TypeConverters = (props: Props) => {
   const [currConverter, setCurrConverter] = useState(null);
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [jsonTitle, setJsonTitle] = useState("");
   /**
    *
    * convert - yaml, sql
-   *
-   *
-   *
    * @param {Generators} generatorType
    */
   const generatorHandler = (generatorType: Generators) => {
@@ -45,7 +53,6 @@ const TypeConverters = (props: Props) => {
       try {
         const getObj = JSON.parse(editorCode);
         if (generatorType === Generators.JSDOC) {
-          debugger;
           const jsDocGen = new JsDocGenerator();
           jsDocGen.createRoot(getObj, "root");
           previewCode = jsDocGen.toString();
@@ -105,10 +112,47 @@ const TypeConverters = (props: Props) => {
               variant="solid"
               color="secondary"
               title={Generators.JSDOC}
-              onClick={props.saveJsonItem}
+              onPress={onOpen}
             >
               Save
             </Button>
+            <Modal
+              isOpen={isOpen}
+              placement="top-center"
+              onOpenChange={onOpenChange}
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">
+                      Enter a title
+                    </ModalHeader>
+                    <ModalBody>
+                      <Input
+                        label="title"
+                        variant="bordered"
+                        value={jsonTitle}
+                        onChange={(e) => setJsonTitle(e.target.value)}
+                      />
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="danger" variant="flat" onPress={onClose}>
+                        Close
+                      </Button>
+                      <Button
+                        color="primary"
+                        onPress={() => {
+                          props.saveJsonItem(jsonTitle);
+                          onClose();
+                        }}
+                      >
+                        Save
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
           </div>
           <div className="text-blue-800 text-xl">
             <Button

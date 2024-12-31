@@ -21,76 +21,24 @@ import MonacoEditor from "../../../components/Editor/MonacoEditor";
 import PreviewCode from "../../../components/Editor/PreviewCode";
 
 const Generator = () => {
+  console.log("generator check");
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [previewCode, setPreviewCode] = useState("");
   const converter = useRef(null);
   const editorRef = useRef(null);
+  const [initalEditorCode, setInitialEditorCode] = useState("");
   const dispatch = useDispatch();
-  const [jsonItem, setJsonItem] = useState<{ id: string; value: string }>({
+  const [jsonItem, setJsonItem] = useState<JsonItem>({
     id: "",
+    title: "",
     value: "",
+    createdAt: "",
+    modifiedAt: "",
   });
   const [isJsonItemPanelShow, setIsJsonItemPanelShow] = useState(true);
-
-  const copyToClipboard = async () => {
-    try {
-      if (!window.navigator) throw Error("fail to copy to clipboard");
-      await window.navigator.clipboard.writeText(previewCode);
-      toast.success("successfully copied", {
-        autoClose: 500,
-        theme: "colored",
-      });
-    } catch (er) {
-      toast.error(er.message, {
-        autoClose: 1000,
-        theme: "colored",
-      });
-    }
-  };
-
-  const handleFileSave = async () => {
-    try {
-      const fileName = "output";
-      // const handle = await window.showDirectoryPicker();
-      // const fileHandle = await handle.getFileHandle(fileName, { create: true });
-
-      // const writeable = await fileHandle.createWritable();
-      // await writeable.write(previewCode);
-      // await writeable.close();
-
-      setLoading(true);
-      let fileType = "txt";
-      if (converter.current === Generators.JSDOC) {
-        fileType = "js";
-      } else if (converter.current === Generators.CSHARP) {
-        fileType = "cs";
-      } else if (converter.current === Generators.CSV) {
-        fileType = "csv";
-      } else if (converter.current === Generators.XML) {
-        fileType = "xml";
-      }
-
-      const blob = new Blob([previewCode], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = fileName + "." + fileType;
-      anchor.click();
-
-      URL.revokeObjectURL(url);
-      toast.success("Successfully downloaded file", {
-        autoClose: 1000,
-        theme: "colored",
-      });
-    } catch (er) {
-      toast.error(er.message, { autoClose: 1000, theme: "colored" });
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const items = useSelector((state: any): JsonItem[] => state.jsonItems.items);
   const getConverterType = (converterType: string) => {
     converter.current = converterType;
   };
@@ -101,17 +49,36 @@ const Generator = () => {
     }
   };
 
-  const saveJsonItem = () => {
-    debugger;
+  const saveJsonItem = (title) => {
+    const isoDate = new Date().toISOString();
+    const getCurrEditorCode = editorRef.current.getEditorState();
     if (!jsonItem.id) {
-      const newJsonItem = { id: v4(), value: editorRef.current };
+      const newJsonItem: JsonItem = {
+        id: v4(),
+        title,
+        value: getCurrEditorCode,
+        createdAt: isoDate,
+        modifiedAt: isoDate,
+      };
       setJsonItem(newJsonItem);
       dispatch(addItem(newJsonItem));
     } else {
       setJsonItem((prevItem) => {
-        return { ...prevItem, value: editorRef.current };
+        return {
+          ...prevItem,
+          title,
+          value: getCurrEditorCode,
+          modifiedAt: isoDate,
+        };
       });
-      dispatch(updateItem({ id: jsonItem.id, value: editorRef.current }));
+      dispatch(
+        updateItem({
+          id: jsonItem.id,
+          title,
+          value: getCurrEditorCode,
+          modifiedAt: isoDate,
+        })
+      );
     }
   };
 
@@ -119,10 +86,18 @@ const Generator = () => {
     navigate(0);
     setLoading(true);
   };
+
+  const selectJsonItem = (jsonItem: JsonItem) => {
+    setPreviewCode("");
+    setInitialEditorCode(jsonItem.value);
+    setJsonItem({
+      ...jsonItem,
+    });
+  };
   return (
     <div className="json-box">
       <Spinner isShow={loading} />
-      <div className="flex items-center">
+      <div className="flex items-center mb-2">
         <Link to="../json-tools" className="text-2xl hover:scale-110">
           <MdKeyboardArrowLeft />
         </Link>
@@ -135,12 +110,14 @@ const Generator = () => {
         <SavedItems
           isShow={isJsonItemPanelShow}
           selectNewItem={selectNewItem}
+          selectItem={selectJsonItem}
         />
         <div className="h-full flex-1 flex flex-col">
           <TypeConverters
             className="flex-auto p-2 flex gap-2"
+            jsonItemId={jsonItem.id}
             getConverterType={getConverterType}
-            getEditorCode={() => editorRef.current}
+            getEditorCode={() => editorRef.current.getEditorState()}
             setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
             saveJsonItem={saveJsonItem}
             jsonPanelCloseHandler={() => {
@@ -148,12 +125,8 @@ const Generator = () => {
             }}
           />
           <div className="flex-auto p-1 bg-slate-800 rounded-lg flex flex-wrap">
-            <div className="flex-1">
-              <MonacoEditor
-                getEditorValue={(val) => {
-                  editorRef.current = val;
-                }}
-              />
+            <div className="flex-1 border-r-2 border-r-slate-600">
+              <MonacoEditor intialValue={initalEditorCode} ref={editorRef} />
             </div>
             <PreviewCode
               previewCode={previewCode}

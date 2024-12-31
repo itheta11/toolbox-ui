@@ -3,22 +3,95 @@ import { debounce } from "lodash";
 import { useState, useRef } from "react";
 
 import JsonConverter from "./Coverters";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import SavedItems from "../../../components/shared/SavedItems";
 import MonacoEditor from "../../../components/Editor/MonacoEditor";
 import PreviewCode from "../../../components/Editor/PreviewCode";
+import Spinner from "../../../components/Spinner/Spinner";
+import { JsonItem } from "../../../store/localstorage";
+import { addItem, deleteItem, updateItem } from "../../../store/jsonItems";
+import { v4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
 
 const JsonBox = () => {
-  const editorRef = useRef(null);
+  console.log("generator check");
+
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [previewCode, setPreviewCode] = useState("");
   const converter = useRef(null);
+  const editorRef = useRef(null);
+  const [initalEditorCode, setInitialEditorCode] = useState("");
+  const dispatch = useDispatch();
+  const [jsonItem, setJsonItem] = useState<JsonItem>({
+    id: "",
+    title: "",
+    value: "",
+    createdAt: "",
+    modifiedAt: "",
+  });
+  const [isJsonItemPanelShow, setIsJsonItemPanelShow] = useState(true);
+  const items = useSelector((state: any): JsonItem[] => state.jsonItems.items);
   const getConverterType = (converterType: string) => {
     converter.current = converterType;
   };
 
-  const [previewCode, setPreviewCode] = useState("");
+  const handleDelete = () => {
+    if (jsonItem.id) {
+      dispatch(deleteItem(jsonItem.id));
+    }
+  };
+
+  const saveJsonItem = (title) => {
+    const isoDate = new Date().toISOString();
+    const getCurrEditorCode = editorRef.current.getEditorState();
+    if (!jsonItem.id) {
+      const newJsonItem: JsonItem = {
+        id: v4(),
+        title,
+        value: getCurrEditorCode,
+        createdAt: isoDate,
+        modifiedAt: isoDate,
+      };
+      setJsonItem(newJsonItem);
+      dispatch(addItem(newJsonItem));
+    } else {
+      setJsonItem((prevItem) => {
+        return {
+          ...prevItem,
+          title,
+          value: getCurrEditorCode,
+          modifiedAt: isoDate,
+        };
+      });
+      dispatch(
+        updateItem({
+          id: jsonItem.id,
+          title,
+          value: getCurrEditorCode,
+          modifiedAt: isoDate,
+        })
+      );
+    }
+  };
+
+  const selectNewItem = () => {
+    navigate(0);
+    setLoading(true);
+  };
+
+  const selectJsonItem = (jsonItem: JsonItem) => {
+    setPreviewCode("");
+    setInitialEditorCode(jsonItem.value);
+    setJsonItem({
+      ...jsonItem,
+    });
+  };
   return (
     <div className="json-box">
+      <Spinner isShow={loading} />
+
       <div className="flex items-center">
         <Link to="../json-tools" className="text-2xl hover:scale-110">
           <MdKeyboardArrowLeft />
@@ -29,21 +102,25 @@ const JsonBox = () => {
       </div>
 
       <div className="h-[calc(100vh-50px)] flex items-center">
-        <SavedItems isShow={false} selectNewItem={() => {}} />
+        <SavedItems
+          isShow={isJsonItemPanelShow}
+          selectNewItem={selectNewItem}
+          selectItem={selectJsonItem}
+        />
         <div className="h-full flex-1 flex flex-col">
           <JsonConverter
             className="flex-auto p-2 flex gap-2"
             getConverterType={getConverterType}
-            getEditorCode={() => editorRef.current}
+            getEditorCode={() => editorRef.current.getEditorState()}
             setPreviewCodeFromEditor={(preview) => setPreviewCode(preview)}
+            saveJsonItem={saveJsonItem}
+            jsonPanelCloseHandler={() => {
+              setIsJsonItemPanelShow((prevState) => !prevState);
+            }}
           />
-          <div className="flex-auto p-1 bg-slate-900 rounded-lg flex flex-wrap">
-            <div className="flex-1">
-              <MonacoEditor
-                getEditorValue={(val) => {
-                  editorRef.current = val;
-                }}
-              />
+          <div className="flex-auto p-1 bg-slate-800 rounded-lg flex flex-wrap">
+            <div className="flex-1 border-r-2 border-r-slate-600">
+              <MonacoEditor intialValue={initalEditorCode} ref={editorRef} />
             </div>
             <PreviewCode
               previewCode={previewCode}
