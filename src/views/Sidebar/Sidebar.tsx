@@ -9,6 +9,7 @@ import { IoLogoCss3 } from "react-icons/io";
 
 import { useDispatch, useSelector } from "react-redux";
 import { expandPanel, collapsePanel } from "../../store/sidePanelSlice";
+import { delay } from "../../helpers";
 
 interface Props extends React.HTMLProps<HTMLElement> {
   className?: string;
@@ -24,7 +25,8 @@ const Sidebar: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const isExpanded = useSelector((state: any) => state.sidePanel.isExpanded);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = async () => {
+    await delay(400);
     dispatch(expandPanel());
   };
 
@@ -36,7 +38,7 @@ const Sidebar: React.FC<Props> = (props) => {
     <aside
       className={
         props.className +
-        ` w-14 border-r-1 border-slate-600 sticky top-0 overflow-hidden transition-width ease-in-out duration-300 ${isExpanded ? "w-40" : ""}`
+        ` w-14 border-r-1 border-slate-600 sticky top-0 overflow-hidden transition-width ease-in-out duration-400 ${isExpanded ? "w-40" : ""}`
       }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -58,22 +60,22 @@ const Sidebar: React.FC<Props> = (props) => {
               <VscJson className="" />
             </NavMainItems>
             <NavMainItems to="css-tools" title="CSS tools">
-              <IoLogoCss3 className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+              <IoLogoCss3 />
             </NavMainItems>
             <NavMainItems to="/" title="Js tools">
-              <RiJavascriptFill className="group-hover:shadow-slate-200 dark:group-hover:bg-black" />
+              <RiJavascriptFill />
             </NavMainItems>
             <NavMainItems to="/" title=".NET tools">
-              <SiDotnet className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+              <SiDotnet />
             </NavMainItems>
-            <NavMainItems to="/" title="Articles">
-              <MdArticle className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+            <NavMainItems to="/drawings" title="Drawings">
+              <MdArticle />
             </NavMainItems>
             <NavMainItems to="/" title="Cheatsheets">
-              <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+              <VscJson />
             </NavMainItems>
             <NavMainItems to="/" title="Miscellaneous">
-              <VscJson className="group-hover:shadow-fuchsia-200 dark:group-hover:bg-fuchsia-600" />
+              <VscJson />
             </NavMainItems>
           </ul>
         </div>

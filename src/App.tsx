@@ -16,6 +16,7 @@ import ColorTools from "./views/CssTools/ColorTools/ColorTools";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import Generator from "./views/JsonTools/Generator/Generator";
+import Drawing from "./views/Drawings/Drawing";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -39,6 +40,8 @@ function App() {
 
                 <Route path="css-tools" element={<CssTools />} />
                 <Route path="css-tools/colors" element={<ColorTools />} />
+
+                <Route path="/drawings" element={<Drawing />} />
               </Routes>
             </div>
           </section>

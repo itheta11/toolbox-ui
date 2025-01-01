@@ -3030,6 +3030,11 @@ video {
   color: hsl(var(--nextui-primary) / 0.8);
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
 .text-secondary {
   --tw-text-opacity: 1;
   color: hsl(var(--nextui-secondary) / var(--nextui-secondary-opacity, var(--tw-text-opacity)));
